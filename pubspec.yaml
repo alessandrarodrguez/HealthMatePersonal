@@ -63,6 +63,8 @@ flutter:
     - assets/HealthMate.PNG
     - assets/back.PNG
     - assets/flowers.PNG
+    - assets/talkingflower.PNG
+    - assets/talkingflower2.PNG
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
