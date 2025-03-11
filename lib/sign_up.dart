@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,10 +10,21 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignInState extends State<SignUp> {
-  final username = TextEditingController();
-  final email = TextEditingController();
-  final password = TextEditingController();
   bool isVisible = false;
+
+final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +121,7 @@ class _SignInState extends State<SignUp> {
                   border: Border.all(color: const Color(0xFF9e31bd)),
                 ),
                 child: TextField(
-                  controller: username,
+                  controller: _usernameController,
                   decoration: InputDecoration(
                     icon: Padding(
                       padding: const EdgeInsets.only(left: 10),
@@ -139,7 +151,7 @@ class _SignInState extends State<SignUp> {
                   border: Border.all(color: const Color(0xFF9e31bd)),
                 ),
                 child: TextField(
-                  controller: email,
+                  controller: _emailController,
                   decoration: InputDecoration(
                     icon: Padding(
                       padding: const EdgeInsets.only(left: 10),
@@ -169,7 +181,7 @@ class _SignInState extends State<SignUp> {
                   border: Border.all(color: const Color(0xFF9e31bd)),
                 ),
                 child: TextField(
-                  controller: password,
+                  controller: _passwordController,
                   obscureText: !isVisible,
                   decoration: InputDecoration(
                     icon: Padding(
@@ -219,4 +231,15 @@ class _SignInState extends State<SignUp> {
       ),
     );
   }
+  void _signUp() async{
+      String username = _usernameController.text;
+      String email = _emailController.text;
+      String password = _passwordController.text;
+
+    UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+
+    if (user != null){
+      Navigator.pushNamed(context, '/home');
+    }
+    }
 }
